@@ -1,0 +1,28 @@
+.menuContainer {
+  position: absolute;
+  top: 68px;
+  right: 10px;
+  width: 200px;
+  li {
+    width: 80%;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 5px;
+    padding: 8px 15px;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: background-color 0.2s, color 0.2s;
+    &:hover {
+      background-color: var(--primary);
+      color: white;
+    }
+    a {
+      text-decoration: none;
+      color: var(--primary);
+      &:hover {
+        color: white;
+      }
+    }
+  }
+}

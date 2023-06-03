@@ -1,0 +1,58 @@
+@use "../../../../assets/styles/mixins" as mixin;
+
+.article {
+  position: relative;
+  border-radius: 20px;
+  height: 480px;
+  cursor: pointer;
+  @include mixin.xs {
+    height: 400px;
+  }
+  > i {
+    position: absolute;
+    z-index: 1;
+    border: 1px solid var(--error);
+    background-color: var(--error);
+    border-radius: 100%;
+    padding: 5px 7px;
+    top: 10px;
+    right: 10px;
+    font-size: 25px;
+    color: white;
+    cursor: pointer;
+    transition: color 0.2s;
+    &:hover {
+      background-color: white;
+      color: var(--error);
+    }
+  }
+  .imgContainer {
+    height: 400px;
+    overflow: hidden;
+    @include mixin.xs {
+      height: 320px;
+    }
+    img {
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+      width: 100%;
+      transition: 1s transform;
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+  }
+  .title {
+    text-align: center;
+    height: 80px;
+    border: 1px solid var(--gray-2);
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    &:hover {
+      color: var(--error);
+    }
+    i {
+      font-size: 1.3rem;
+    }
+  }
+}

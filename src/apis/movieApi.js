@@ -13,9 +13,9 @@ export async function getNumberMovies() {
 }
 
 export async function getMovies(page) {
-  console.log(page);
+  console.log(page.user.idUser);
   try {
-    const response = await fetch(`${URL_API}/getMovies?&limit=${page * 6}`);
+    const response = await fetch(`${URL_API}/getMovies?&limit=${page.page * 6}&user=${page.user.idUser}`);
     if (response.ok) {
       const allMovie = await response.json();
       return allMovie;
@@ -25,9 +25,10 @@ export async function getMovies(page) {
   }
 }
 
-export async function getFav(movie) {
+export async function getFav(data) {
+  console.log(data);
   try {
-    const response = await fetch(`${URL_API}/getFav?idMovie=${movie}`);
+    const response = await fetch(`${URL_API}/getFav?idMovie=${data.idM}&user=${data.idU}`);
     if (response.ok) {
       const fav = await response.json();
       return fav;
@@ -51,6 +52,7 @@ export async function getOneMovie(id) {
 }
 
 export async function updateMovie(updatedMovie) {
+  console.log(updatedMovie);
   try {
     const response = await fetch(`${URL_API}/toggleLiked`, {
       method: "POST",

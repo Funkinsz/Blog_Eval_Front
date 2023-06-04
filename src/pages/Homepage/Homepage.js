@@ -17,7 +17,6 @@ export default function Homepage() {
   const [numberMovies, setNumberMovies] = useState(0);
 
   function isFiltering(value) {
-    console.log({ value });
     setIsSearching(value);
   }
 
@@ -26,7 +25,7 @@ export default function Homepage() {
       try {
         const numberMoviesFromAPI = await getNumberMovies();
         setNumberMovies(numberMoviesFromAPI);
-        const movies = await getMovies(page);
+        const movies = await getMovies({page, user});
         setArticles(movies);
         if (numberMoviesFromAPI && movies) {
           setIsLoading(false);
@@ -44,6 +43,7 @@ export default function Homepage() {
   async function updateArticles(updatedMovie) {
     console.log(updatedMovie);
     const updatedOneMovie = await updateMovie(updatedMovie);
+    console.log(updatedOneMovie);
     setArticles(
       articles.map((a) =>
         a.idMovies === updatedOneMovie.idMovies ? updatedOneMovie : a

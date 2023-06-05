@@ -3,7 +3,7 @@ import styles from "./Homepage.module.scss";
 import { useContext, useEffect, useState } from "react";
 import Loading from "../../components/Loading/Loading";
 import SearchBar from "./components/SearchBar/SearchBar";
-import { getFav, getMovies, getNumberMovies, updateMovie } from "../../apis/movieApi";
+import { getMovies, getNumberMovies, updateMovie } from "../../apis/movieApi";
 import { AuthContext } from "../../context";
 
 export default function Homepage() {
@@ -25,7 +25,9 @@ export default function Homepage() {
       try {
         const numberMoviesFromAPI = await getNumberMovies();
         setNumberMovies(numberMoviesFromAPI);
-        const movies = await getMovies({page, user});
+
+        // j'ajoute user pour récupérer l'id de l'utilisateur afin d'ajouter le film dans la table favorite qui sera liée entre user et movies avec un boolean
+        const movies = await getMovies({ page, user });
         setArticles(movies);
         if (numberMoviesFromAPI && movies) {
           setIsLoading(false);
@@ -49,14 +51,17 @@ export default function Homepage() {
         a.idMovies === updatedOneMovie.idMovies ? updatedOneMovie : a
       )
     );
-    // await getFav(updatedOneMovie)
+    // on rappelle la fonction getMovies présente dans le useEffect pour rendre la page dynamique apres un like
+    const movies = await getMovies({ page, user });
+    setArticles(movies);
   }
 
   return (
     <div className="flex-fill d-flex flex-column container p20">
       <h1 className="my30">Nos derniers articles</h1>
       <div
-        className={`card flex-fill d-flex flex-column mb20 p20 ${styles.contentCard}`}>
+        className={`card flex-fill d-flex flex-column mb20 p20 ${styles.contentCard}`}
+      >
         <SearchBar setSearch={setSearch} isFiltering={isFiltering} />
         {isLoading ? (
           <Loading />
@@ -67,7 +72,7 @@ export default function Homepage() {
                 articles
                   .filter((a) => a.nameMovies.toLowerCase().startsWith(search))
                   .map((a, i) => (
-                    <Article key={i} movie={a} updateMovie={updateArticles} getFav={getFav}/>
+                    <Article key={i} movie={a} updateMovie={updateArticles} />
                   ))}
             </div>
           </>
@@ -77,7 +82,8 @@ export default function Homepage() {
           <div className="d-flex justify-content-center align-items-center p20">
             <button
               onClick={() => setPage(page + 1)}
-              className="btn btn-primary">
+              className="btn btn-primary"
+            >
               Plus de films ...
             </button>
           </div>

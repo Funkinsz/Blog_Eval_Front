@@ -26,10 +26,6 @@ export default function Header() {
             </button>
             <button className={`mr10 btn btn-primary-reverse`}>
               <i className="fas fa-star mr5"></i>
-              <NavLink to="/">Favorites</NavLink>
-            </button>
-            <button className={`mr10 btn btn-primary-reverse`}>
-              <i className="fas fa-star mr5"></i>
               <NavLink onClick={() => signout()} to='/login'>Logout</NavLink>
             </button>
           </>

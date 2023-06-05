@@ -13,7 +13,7 @@ export async function getNumberMovies() {
 }
 
 export async function getMovies(page) {
-  console.log(page.user.idUser);
+  console.log(page);
   try {
     const response = await fetch(`${URL_API}/getMovies?&limit=${page.page * 6}&user=${page.user.idUser}`);
     if (response.ok) {
@@ -28,7 +28,7 @@ export async function getMovies(page) {
 export async function getFav(data) {
   console.log(data);
   try {
-    const response = await fetch(`${URL_API}/getFav?idMovie=${data.idM}&user=${data.idU}`);
+    const response = await fetch(`${URL_API}/getFav?&idMovie=${data.idMovies}&user=${data.user.idUser}`);
     if (response.ok) {
       const fav = await response.json();
       return fav;
@@ -52,7 +52,6 @@ export async function getOneMovie(id) {
 }
 
 export async function updateMovie(updatedMovie) {
-  console.log(updatedMovie);
   try {
     const response = await fetch(`${URL_API}/toggleLiked`, {
       method: "POST",
@@ -64,6 +63,33 @@ export async function updateMovie(updatedMovie) {
     if (response.ok) {
       const updateMovie = await response.json();
       return updateMovie;
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function myFavorite(user) {
+  console.log(user.idUser);
+  try {
+    const response = await fetch(`${URL_API}/myFav?&idUser=${user.idUser}`)
+    if (response.ok) {
+      const favorite = await response.json()
+      console.log(favorite);
+      return favorite
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function myMoviesFav(favorite) {
+  try {
+    const response = await fetch(`${URL_API}/myMoviesFav?&idMovies=${favorite}`)
+    if (response.ok) {
+      const myMovies = await response.json()
+      console.log(myMovies);
+      return
     }
   } catch (error) {
     console.error(error);

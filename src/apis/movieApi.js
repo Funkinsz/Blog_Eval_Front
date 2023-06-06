@@ -15,10 +15,22 @@ export async function getNumberMovies() {
 export async function getMovies(page) {
   // page a maintenant le nombre de page généré depuis le front et l'utilisateur
   try {
-    const response = await fetch(`${URL_API}/getMovies?&limit=${page.page * 6}&user=${page.user.idUser}`);
-    if (response.ok) {
-      const allMovie = await response.json();
-      return allMovie;
+    if (page.user) {
+      const response = await fetch(
+        `${URL_API}/getMovies?&limit=${page.page * 6}&user=${page.user.idUser}`
+      );
+      if (response.ok) {
+        const allMovie = await response.json();
+        return allMovie;
+      }
+    } else {
+      const response = await fetch(
+        `${URL_API}/getMovies?&limit=${page.page * 6}`
+      );
+      if (response.ok) {
+        const allMovie = await response.json();
+        return allMovie;
+      }
     }
   } catch (error) {
     console.log(error);
@@ -59,11 +71,11 @@ export async function updateMovie(updatedMovie) {
 
 export async function myFavorite(user) {
   try {
-    const response = await fetch(`${URL_API}/myFav?&idUser=${user.idUser}`)
+    const response = await fetch(`${URL_API}/myFav?&idUser=${user.idUser}`);
     if (response.ok) {
-      const favorite = await response.json()
+      const favorite = await response.json();
       console.log(favorite);
-      return favorite
+      return favorite;
     }
   } catch (error) {
     console.error(error);
